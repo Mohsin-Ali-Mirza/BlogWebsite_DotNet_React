@@ -1,0 +1,36 @@
+create or replace trigger insert_person_trigger
+after insert or delete on person
+begin
+
+update person p set p.samenamecount = (select count(*) from person where name like p.name);
+
+end;
+
+/
+
+
+
+create or replace trigger update_person_trigger1
+after update of name on person
+begin
+
+update person p set p.samenamecount = (select count(*) from person where name like p.name);
+
+end;
+
+/
+
+
+
+
+create or replace trigger update_person_trigger2
+before update of name on person
+for each row
+begin
+
+:new.previousname := :old.name;
+
+end;
+
+/
+
